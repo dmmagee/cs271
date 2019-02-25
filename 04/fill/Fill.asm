@@ -12,3 +12,44 @@
 // the screen should remain fully clear as long as no key is pressed.
 
 // Put your code here.
+
+@8192
+D=A
+@count
+M=D     // count = 8192 bytes
+
+(LOOP)
+@location
+M=0     // location = 0
+
+(INNER)
+@KBD
+D=M
+@WHITE
+D;JEQ   // goto WHITE if KBD value is 0
+
+(BLACK)
+@location
+D=M
+@SCREEN
+A=A+D   // Calculate byte address
+M=-1
+@END
+0;JMP   // goto END
+
+(WHITE)
+@location
+D=M
+@SCREEN
+A=A+D   // Calculate byte address
+M=0
+
+(END)   
+@location
+MD=M+1  // Increment location by 1
+@count
+D=D-M
+@LOOP
+D;JEQ   // goto LOOP if count - location == 0
+@INNER
+0;JMP   // goto INNER
